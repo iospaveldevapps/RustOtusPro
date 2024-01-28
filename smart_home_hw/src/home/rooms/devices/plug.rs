@@ -62,10 +62,6 @@ impl Plug for SmartPlug {
 }
 
 impl SmartDevice for SmartPlug {
-    fn exist_at_home(&self, cmp_device_name: &str) -> bool {
-        self.name.to_lowercase() == cmp_device_name.to_string().to_lowercase()
-    }
-
     fn name(&self) -> &String {
         &self.name
     }

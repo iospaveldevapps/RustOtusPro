@@ -21,7 +21,7 @@ trait Thermometer {
 
 #[derive(Debug)]
 pub struct SmartThermometer {
-    name: String,
+    pub name: String,
     temperature: i8,
 }
 
@@ -48,10 +48,6 @@ impl Thermometer for SmartThermometer {
 }
 
 impl SmartDevice for SmartThermometer {
-    fn exist_at_home(&self, cmp_device_name: &str) -> bool {
-        self.name.to_lowercase() == cmp_device_name.to_string().to_lowercase()
-    }
-
     fn name(&self) -> &String {
         &self.name
     }

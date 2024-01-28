@@ -26,37 +26,31 @@ impl SmartHomeService for Home {
     fn device_report(&self, device_name: String) -> Report {
         let mut common_devices_count = 0;
         let mut devices_rooms_map: HashMap<String, Vec<String>> = HashMap::new();
+        let mut room_devices_names: Vec<String> = Vec::new();
 
         for room in &self.rooms {
-            let mut room_devices_names: Vec<String> = Vec::new();
-
             for device in &room.devices {
                 common_devices_count += 1;
                 let name = device.name();
                 room_devices_names.push(name.to_string());
-
-                if device.exist_at_home(&device_name) {
-                    println!("Device with id: {} is exist!", device_name);
-                } else {
-                    println!("Device with id: {} is not exist!", device_name);
-                }
             }
-
-            devices_rooms_map.insert(room.name.clone(), room_devices_names);
+            devices_rooms_map.insert(room.name.clone(), room_devices_names.clone());
         }
 
-        let report = Report::new(
+        if room_devices_names.contains(&device_name) {
+            println!("Device with id: {} is exist!", device_name);
+        } else {
+            println!("Device with id: {} is not exist!", device_name);
+        }
+
+        Report::new(
             self.name.clone(),
             HomeReport::CommonReport {
                 number_of_rooms: self.rooms.len(),
                 common_count_of_devices: common_devices_count,
                 room_devices: devices_rooms_map,
             },
-        );
-
-        println!("Report {:?}", report);
-
-        report
+        )
     }
 }
 

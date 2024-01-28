@@ -1,10 +1,9 @@
-use smart_home::home::{Home, SmartHomeService};
-use smart_home::rooms::devices;
-use smart_home::rooms::devices::device::SmartDevice;
-use smart_home::rooms::room::Room;
+use devices::device::SmartDevice;
+use home::rooms::{devices, room::Room};
+use home::smart_home::{Home, SmartHomeService};
 
-mod reports;
-mod smart_home;
+pub mod home;
+pub mod reports;
 
 fn main() {
     // devices
@@ -17,20 +16,29 @@ fn main() {
     let plug_two =
         devices::plug::SmartPlug::new(String::from("plug_two"), 24, devices::plug::PlugStates::Off);
 
-    // rooms
     let small_room_devices: Vec<Box<dyn SmartDevice>> =
         vec![Box::new(plug_one), Box::new(thermometer_one)];
-
     let big_room_devices: Vec<Box<dyn SmartDevice>> = vec![Box::new(plug_two)];
 
+    // rooms
     let small_room = Room::new(String::from("Small Room"), small_room_devices);
-
     let big_room = Room::new(String::from("Big Room"), big_room_devices);
 
     // home
     let smart_home = Home::new(String::from("Test Smart Home"), vec![small_room, big_room]);
-    println!("This home {:?} is created", smart_home.name);
 
+    // report
     let report = smart_home.device_report("thermo_one".to_string());
-    println!("Full report here {:?}", report);
+    println!("-----------------------------------------------------------");
+    println!("{:?}", report);
+    println!("-----------------------------------------------------------");
+}
+
+#[cfg(test)]
+mod _tests {
+    mod test_home;
+    mod test_plug;
+    mod test_report;
+    mod test_room;
+    mod test_thermometer;
 }
