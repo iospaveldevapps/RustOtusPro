@@ -1,11 +1,13 @@
 use super::device::SmartDevice;
 
 #[derive(Debug)]
+#[non_exhaustive]
 pub enum PlugStates {
     _On,
     Off,
 }
 
+#[non_exhaustive]
 enum PlugData {
     PowerConsumption(u8),
 }

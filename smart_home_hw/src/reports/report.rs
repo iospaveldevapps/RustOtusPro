@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 
 #[derive(Debug)]
+#[non_exhaustive]
 pub enum HomeReport {
     CommonReport {
         number_of_rooms: usize,

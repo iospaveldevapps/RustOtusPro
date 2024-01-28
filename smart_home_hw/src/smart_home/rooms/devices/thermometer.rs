@@ -1,5 +1,6 @@
 use super::device::SmartDevice;
 
+#[non_exhaustive]
 enum ThermometerData {
     Temperature(i8),
 }
