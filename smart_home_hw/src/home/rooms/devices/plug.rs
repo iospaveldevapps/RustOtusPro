@@ -2,6 +2,7 @@ use super::device::SmartDevice;
 
 #[derive(Debug)]
 #[non_exhaustive]
+#[derive(Clone)]
 pub enum PlugStates {
     _On,
     Off,
@@ -26,7 +27,7 @@ trait Plug {
     fn toggle(&mut self, state: PlugStates);
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct SmartPlug {
     pub name: String,
     power: u8,

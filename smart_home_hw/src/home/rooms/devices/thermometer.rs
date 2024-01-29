@@ -19,7 +19,7 @@ trait Thermometer {
     fn provide(&self, data: Option<&ThermometerData>) -> String;
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct SmartThermometer {
     pub name: String,
     temperature: i8,

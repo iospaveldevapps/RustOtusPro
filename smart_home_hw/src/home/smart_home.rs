@@ -1,11 +1,11 @@
-use super::rooms::devices::device::SmartDevice;
+use super::rooms::devices::device::SmartDeviceClone;
 use super::rooms::room::Room;
 use crate::reports::report::{HomeReport, Report};
 use std::collections::HashMap;
 
 pub trait SmartHomeService {
     fn rooms(&self) -> &Vec<Room>;
-    fn devices(&self, room: Room) -> Vec<Box<dyn SmartDevice>>;
+    fn devices(&self, room: Room) -> Vec<Box<dyn SmartDeviceClone>>;
     fn device_report(&self, device_name: String) -> Report;
 }
 
@@ -19,7 +19,7 @@ impl SmartHomeService for Home {
         &self.rooms
     }
 
-    fn devices(&self, room: Room) -> Vec<Box<dyn SmartDevice>> {
+    fn devices(&self, room: Room) -> Vec<Box<dyn SmartDeviceClone>> {
         room.devices
     }
 

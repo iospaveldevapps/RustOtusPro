@@ -1,4 +1,4 @@
-use devices::device::SmartDevice;
+use devices::device::SmartDeviceClone;
 use home::rooms::{devices, room::Room};
 use home::smart_home::{Home, SmartHomeService};
 
@@ -16,9 +16,9 @@ fn main() {
     let plug_two =
         devices::plug::SmartPlug::new(String::from("plug_two"), 24, devices::plug::PlugStates::Off);
 
-    let small_room_devices: Vec<Box<dyn SmartDevice>> =
+    let small_room_devices: Vec<Box<dyn SmartDeviceClone>> =
         vec![Box::new(plug_one), Box::new(thermometer_one)];
-    let big_room_devices: Vec<Box<dyn SmartDevice>> = vec![Box::new(plug_two)];
+    let big_room_devices: Vec<Box<dyn SmartDeviceClone>> = vec![Box::new(plug_two)];
 
     // rooms
     let small_room = Room::new(String::from("Small Room"), small_room_devices);
@@ -40,5 +40,6 @@ mod _tests {
     mod test_plug;
     mod test_report;
     mod test_room;
+    mod test_smart_home_service;
     mod test_thermometer;
 }
