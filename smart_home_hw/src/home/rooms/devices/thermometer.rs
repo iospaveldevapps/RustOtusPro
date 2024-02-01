@@ -1,49 +1,91 @@
+use super::device::Device;
 use super::device::SmartDevice;
-
-#[non_exhaustive]
-enum ThermometerData {
-    Temperature(i8),
-}
-
-impl ThermometerData {
-    fn info(data: &ThermometerData) -> String {
-        match data {
-            ThermometerData::Temperature(temperature) => {
-                format!("ThermometerData '{}'", temperature)
-            }
-        }
-    }
-}
-
-trait Thermometer {
-    fn provide(&self, data: Option<&ThermometerData>) -> String;
-}
+use super::device_data_types::DeviceDataTypes;
+use super::device_errors::DeviceErrors;
+use super::device_states::DeviceStates;
 
 #[derive(Debug, Clone)]
 pub struct SmartThermometer {
     pub name: String,
-    temperature: i8,
+    power: Option<u8>,
+    temperature: Option<i8>,
+    state: DeviceStates,
 }
 
 impl SmartThermometer {
-    pub fn new(name: String, temperature: i8) -> Self {
-        SmartThermometer { name, temperature }
+    pub fn new(
+        name: String,
+        power: Option<u8>,
+        temperature: Option<i8>,
+        state: DeviceStates,
+    ) -> Self {
+        SmartThermometer {
+            name,
+            power,
+            temperature,
+            state,
+        }
     }
 }
 
-impl Thermometer for SmartThermometer {
-    fn provide(&self, data: Option<&ThermometerData>) -> String {
-        println!(
-            "Smart Thermometer Name: {}, Temperature: {}",
-            self.name, self.temperature
-        );
-
-        if let Some(value) = data {
-            ThermometerData::info(value)
+impl Device for SmartThermometer {
+    fn full_info(&self) -> String {
+        if let (Some(power), Some(tmp)) = (self.power, self.temperature) {
+            format!(
+                "Thermometer ID: {}, Power: {:?}, Temperature: {:?}, State: {:?}",
+                self.name, power, tmp, self.state
+            )
         } else {
-            let tmp_data = ThermometerData::Temperature(-20);
-            ThermometerData::info(&tmp_data)
+            format!(
+                "Thermometer ID: {}, is : {:?}, and no any info about the device power and temperature!",
+                self.name, self.state
+            )
         }
+    }
+
+    fn info_about(&self, data: &DeviceDataTypes) {
+        match data {
+            DeviceDataTypes::ThermometerTemperature => {
+                if let Some(tmp) = self.temperature {
+                    println!("------");
+                    println!(
+                        "The temperature of the thermometer with ID {} is {}",
+                        self.name, tmp
+                    );
+                    println!("------");
+                } else {
+                    println!(
+                        "{:?}",
+                        DeviceErrors::BrokenDevice(format!(
+                            "The thermometer with ID {} can't provide the actual temperature",
+                            self.name
+                        ))
+                    );
+                }
+            }
+            DeviceDataTypes::PowerConsumption => {
+                if let Some(power) = self.power {
+                    println!("------");
+                    println!(
+                        "The power of the thermometer with ID {} is {}",
+                        self.name, power
+                    );
+                    println!("------");
+                } else {
+                    println!(
+                        "{:?}",
+                        DeviceErrors::BrokenDevice(format!(
+                            "The thermometer with ID {} can't provide the actual info about the device power!",
+                            self.name
+                        ))
+                    );
+                }
+            }
+        }
+    }
+
+    fn toggle(&mut self, state: DeviceStates) {
+        self.state = state;
     }
 }
 
