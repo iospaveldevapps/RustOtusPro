@@ -1,4 +1,4 @@
-pub enum DeviceDataTypes {
+pub enum DeviceInfoTypes {
     PowerConsumption,
     ThermometerTemperature,
 }

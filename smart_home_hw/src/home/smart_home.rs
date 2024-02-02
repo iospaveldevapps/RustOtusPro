@@ -1,5 +1,6 @@
-use super::rooms::devices::device::SmartDeviceClone;
+use super::rooms::devices::device_api::DeviceFieldData;
 use super::rooms::room::Room;
+use crate::devices::device::Device;
 use crate::reports::report::{HomeReport, Report};
 use std::collections::HashMap;
 
@@ -15,7 +16,7 @@ pub enum SmartHomeServiceErrors {
 pub trait SmartHomeService {
     fn report(&self, device_name: Option<String>) -> Result<Report, SmartHomeServiceErrors>;
     fn rooms(&self) -> &Vec<Room>;
-    fn devices(&self, room: Room) -> Vec<Box<dyn SmartDeviceClone>>;
+    fn devices(&self, room: Room) -> Vec<Device>;
 }
 
 pub struct Home {
@@ -28,7 +29,7 @@ impl SmartHomeService for Home {
         &self.rooms
     }
 
-    fn devices(&self, room: Room) -> Vec<Box<dyn SmartDeviceClone>> {
+    fn devices(&self, room: Room) -> Vec<Device> {
         room.devices
     }
 
