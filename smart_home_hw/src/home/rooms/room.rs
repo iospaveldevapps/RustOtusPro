@@ -1,6 +1,7 @@
+use super::super::rooms::room_api::SmartRoomService;
 use super::devices::device::Device;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub struct Room {
     pub name: String,
     pub devices: Vec<Device>,
@@ -18,5 +19,11 @@ impl Clone for Room {
             name: self.name.clone(),
             devices: self.devices.clone(),
         }
+    }
+}
+
+impl SmartRoomService for Room {
+    fn all_devices(&self) -> &Vec<Device> {
+        &self.devices
     }
 }

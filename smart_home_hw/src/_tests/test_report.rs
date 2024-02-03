@@ -1,7 +1,7 @@
 use crate::home::rooms::devices::device::Device;
 use crate::home::rooms::devices::device_states::DeviceStates;
 use crate::home::rooms::room::Room;
-use crate::home::smart_home::SmartHomeService;
+use crate::home::smart_home_api::SmartHomeService;
 use crate::Home;
 
 #[test]

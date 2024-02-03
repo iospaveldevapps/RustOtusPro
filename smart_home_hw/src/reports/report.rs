@@ -13,15 +13,12 @@ pub enum HomeReport {
 #[derive(Debug)]
 pub struct Report {
     pub home_name: String,
-    pub home_report: HomeReport,
+    pub report: HomeReport,
 }
 
 impl Report {
-    pub fn new(home_name: String, home_report: HomeReport) -> Self {
-        Report {
-            home_name,
-            home_report,
-        }
+    pub fn new(home_name: String, report: HomeReport) -> Self {
+        Report { home_name, report }
     }
 
     pub fn is_name_empty(&self) -> bool {

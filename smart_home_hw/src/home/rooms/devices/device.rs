@@ -3,7 +3,7 @@ use super::device_errors::DeviceErrors;
 use super::device_info_types::DeviceInfoTypes;
 use super::device_states::DeviceStates;
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub enum Device {
     Plug {
         name: String,

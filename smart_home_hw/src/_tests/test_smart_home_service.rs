@@ -16,7 +16,7 @@ fn test_home_rooms() {
     let room = Room::new(String::from("Small Room"), room_devices);
     let home = Home::new(String::from("Test Smart Home"), vec![room]);
 
-    assert_eq!(home.rooms().len(), 1);
+    assert_eq!(home.all_rooms().len(), 1);
 }
 
 #[test]
@@ -50,5 +50,5 @@ fn test_home_devices() {
     let room = Room::new(String::from("Small Room"), room_devices);
     let home = Home::new(String::from("Test Smart Home"), vec![room.clone()]);
 
-    assert_eq!(home.devices(room).len(), 1);
+    assert_eq!(home.all_room_devices(room).len(), 1);
 }
